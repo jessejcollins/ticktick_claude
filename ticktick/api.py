@@ -113,10 +113,10 @@ class TickTickClient:
 
     def append_task_content(self, project_id: str, task_id: str,
                             text: str) -> dict:
-        """Append text to a task's desc (description) field."""
+        """Append text to a task's content (description) field."""
         task = self.get_task(project_id, task_id)
-        existing = task.get("desc") or ""
-        task["desc"] = existing + text
+        existing = task.get("content") or ""
+        task["content"] = existing + text
         # Send the entire task object to preserve all fields
         return self.update_task(task_id, **task)
 
