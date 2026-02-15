@@ -58,9 +58,24 @@ ticktick tasks --json
 ticktick claude-tasks --json
 ```
 
-## Claude Cowork Integration
+## Task Mutation Commands
 
-### `claude` tag — task list for Claude
+These commands let you modify tasks directly from the CLI — useful as building blocks for Claude cowork or any automation.
+
+```bash
+# Append text to a task's description
+ticktick append-description <project-id> <task-id> "Notes from research..."
+
+# Add checklist items to a task
+ticktick add-checklist <project-id> <task-id> "Step 1" "Step 2" "Step 3"
+
+# Mark a task as completed
+ticktick complete-task <project-id> <task-id>
+```
+
+Use `ticktick tasks --verbose` or `ticktick tasks --json` to find task and project IDs.
+
+## Claude Cowork Integration
 
 Tag any task in TickTick with `claude` and it will appear when running:
 
@@ -68,21 +83,4 @@ Tag any task in TickTick with `claude` and it will appear when running:
 ticktick claude-tasks --json
 ```
 
-This JSON output is designed to be consumed by Claude cowork to assist with or complete the tagged tasks.
-
-### `claude-research` tag — automated research
-
-Tag a task with `claude-research` and the CLI will:
-1. Search the web for information related to the task title/description
-2. Append a formatted summary of findings to the task description
-3. Add actionable next steps as checklist items on the task
-
-```bash
-# Preview what would happen (no changes made)
-ticktick claude-research-tasks --dry-run
-
-# Run research and update tasks in TickTick
-ticktick claude-research-tasks
-```
-
-Research uses DuckDuckGo (no API key required) to find relevant sources, then compiles numbered findings with links and generates follow-up checklist items.
+This JSON output is designed to be consumed by Claude cowork to assist with or complete the tagged tasks. Claude can then use `append-description`, `add-checklist`, and `complete-task` to update tasks as it works on them.

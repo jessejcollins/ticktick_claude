@@ -10,7 +10,6 @@ from dotenv import load_dotenv
 
 from ticktick.api import TickTickClient, PRIORITY_LABELS
 from ticktick.auth import authorize, DEFAULT_TOKEN_PATH
-from ticktick.research import research_task
 
 
 def _load_env():
@@ -148,68 +147,37 @@ def cmd_claude_tasks(args):
         print(_format_task(task, verbose=args.verbose))
 
 
-def cmd_claude_research_tasks(args):
-    """Find tasks tagged 'claude-research', research them, and update."""
+def cmd_append_description(args):
+    """Append text to a task's description."""
     client = _get_client()
-    tasks = client.get_tasks_by_tag("claude-research")
+    result = client.append_task_content(args.project_id, args.task_id, args.text)
+    print(f"Updated task: {result.get('title', args.task_id)}")
+    if result.get("content"):
+        print(f"Description now:\n  {result['content']}")
 
-    # Only open tasks
-    tasks = [t for t in tasks if t.get("status", 0) == 0]
 
-    if not tasks:
-        print("No open tasks tagged 'claude-research' found.")
-        return
+def cmd_add_checklist(args):
+    """Add checklist items to a task."""
+    client = _get_client()
+    result = client.add_checklist_items(args.project_id, args.task_id, args.items)
+    items = result.get("items", [])
+    print(f"Updated task: {result.get('title', args.task_id)}")
+    print(f"Checklist ({len(items)} item(s)):")
+    for item in items:
+        status = "x" if item.get("status", 0) != 0 else " "
+        print(f"  [{status}] {item['title']}")
 
-    print(f"Found {len(tasks)} task(s) to research.\n")
 
-    for task in tasks:
-        task_id = task["id"]
-        project_id = task["projectId"]
-        title = task["title"]
-        content = task.get("content", "")
+def cmd_complete_task(args):
+    """Mark a task as completed."""
+    client = _get_client()
 
-        print(f"Researching: {title}")
-        print(f"  Searching the web...")
+    # Fetch the task first to show its title in confirmation
+    task = client.get_task(args.project_id, args.task_id)
+    title = task.get("title", args.task_id)
 
-        try:
-            findings = research_task(title, content)
-        except Exception as e:
-            print(f"  Error researching task: {e}\n")
-            continue
-
-        summary = findings["summary"]
-        next_steps = findings["next_steps"]
-        sources = findings["sources"]
-
-        print(f"  Found {len(sources)} source(s).")
-
-        if args.dry_run:
-            print(f"  [dry-run] Would append to description:")
-            for line in summary.strip().split("\n")[:6]:
-                print(f"    {line}")
-            if len(summary.strip().split("\n")) > 6:
-                print(f"    ...")
-            print(f"  [dry-run] Would add {len(next_steps)} checklist item(s):")
-            for step in next_steps:
-                print(f"    - {step}")
-            print()
-            continue
-
-        # Append research findings to the task description
-        print(f"  Updating task description...")
-        client.append_task_content(project_id, task_id, summary)
-
-        # Add next steps as checklist items
-        if next_steps:
-            print(f"  Adding {len(next_steps)} checklist item(s)...")
-            client.add_checklist_items(project_id, task_id, next_steps)
-
-        print(f"  Done.\n")
-
-    if args.dry_run:
-        print("Dry run complete — no tasks were modified.")
-    else:
-        print("All tasks researched and updated.")
+    client.complete_task(args.project_id, args.task_id)
+    print(f"Completed task: {title}")
 
 
 # ------------------------------------------------------------------
@@ -252,15 +220,31 @@ def main():
     claude_parser.add_argument("--json", action="store_true",
                                help="Output as JSON")
 
-    # claude-research-tasks
-    research_parser = subparsers.add_parser(
-        "claude-research-tasks",
-        help="Research tasks tagged 'claude-research' and update them with findings",
+    # append-description
+    append_parser = subparsers.add_parser(
+        "append-description",
+        help="Append text to a task's description",
     )
-    research_parser.add_argument(
-        "--dry-run", "-n", action="store_true",
-        help="Show what would be done without modifying tasks",
+    append_parser.add_argument("project_id", help="Project ID")
+    append_parser.add_argument("task_id", help="Task ID")
+    append_parser.add_argument("text", help="Text to append to the description")
+
+    # add-checklist
+    checklist_parser = subparsers.add_parser(
+        "add-checklist",
+        help="Add checklist items to a task",
     )
+    checklist_parser.add_argument("project_id", help="Project ID")
+    checklist_parser.add_argument("task_id", help="Task ID")
+    checklist_parser.add_argument("items", nargs="+", help="Checklist item titles")
+
+    # complete-task
+    complete_parser = subparsers.add_parser(
+        "complete-task",
+        help="Mark a task as completed",
+    )
+    complete_parser.add_argument("project_id", help="Project ID")
+    complete_parser.add_argument("task_id", help="Task ID")
 
     args = parser.parse_args()
 
@@ -273,7 +257,9 @@ def main():
         "projects": cmd_projects,
         "tasks": cmd_tasks,
         "claude-tasks": cmd_claude_tasks,
-        "claude-research-tasks": cmd_claude_research_tasks,
+        "append-description": cmd_append_description,
+        "add-checklist": cmd_add_checklist,
+        "complete-task": cmd_complete_task,
     }
     commands[args.command](args)
 
