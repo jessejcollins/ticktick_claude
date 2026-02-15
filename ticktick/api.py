@@ -116,13 +116,9 @@ class TickTickClient:
         """Append text to a task's desc (description) field."""
         task = self.get_task(project_id, task_id)
         existing = task.get("desc") or ""
-        updated_desc = existing + text
-        return self.update_task(
-            task_id,
-            projectId=project_id,
-            id=task_id,
-            desc=updated_desc,
-        )
+        task["desc"] = existing + text
+        # Send the entire task object to preserve all fields
+        return self.update_task(task_id, **task)
 
     def add_checklist_items(self, project_id: str, task_id: str,
                             titles: list[str]) -> dict:
@@ -141,12 +137,9 @@ class TickTickClient:
                 "sortOrder": max_sort + i + 1,
             })
 
-        return self.update_task(
-            task_id,
-            projectId=project_id,
-            id=task_id,
-            items=existing_items,
-        )
+        task["items"] = existing_items
+        # Send the entire task object to preserve all fields
+        return self.update_task(task_id, **task)
 
     def delete_task(self, project_id: str, task_id: str) -> None:
         self._request("DELETE", f"/task/{project_id}/{task_id}")
