@@ -91,11 +91,15 @@ When running the ticktick CLI inside Claude Code, follow this workflow to pick u
 
 3. **Research the selected task** — Read the task's title, description (`content` field), and any checklist items to understand the requirements. If the task references files, code, or concepts in the current repository, explore the codebase to build context. Ask the user clarifying questions if the task is ambiguous.
 
-4. **Propose a plan** — Summarize what you found and outline the steps you would take to complete the task. Ask the user if they want to proceed.
+4. **Propose a plan — choose a path** — After researching, present the user with two options:
 
-5. **Execute the work** — Carry out the plan (write code, edit files, run commands, etc.). Use `ticktick append-description` to log progress notes back to the task if appropriate, and `ticktick add-checklist` to break the task into trackable sub-steps.
+   - **Path A: Research & break down** — If the task needs more investigation or is too large to complete in one session, research the problem, write up findings using `ticktick append-description`, and break the work into concrete sub-steps using `ticktick add-checklist`. This leaves the task open with a clear roadmap for future work.
+   - **Path B: Attempt to complete** — If the task is actionable and scoped enough to finish now, outline the steps and ask the user for approval to execute (write code, edit files, run commands, etc.).
 
-6. **Confirm completion** — When the work is done, present the results to the user and ask if they are satisfied. If so, run `ticktick complete-task <project_id> <task_id>` to mark the task as done in TickTick.
+5. **Execute the chosen path**:
+
+   - **If Path A (research)**: Investigate the problem, explore the codebase or external resources, then write a summary of findings back to the task via `ticktick append-description`. Add a checklist of broken-down work items via `ticktick add-checklist`. The task stays open for a future session.
+   - **If Path B (complete)**: Carry out the plan. When done, present the results to the user and ask if they are satisfied. If so, run `ticktick complete-task <project_id> <task_id>` to mark the task as done in TickTick.
 
 ### Example session
 
