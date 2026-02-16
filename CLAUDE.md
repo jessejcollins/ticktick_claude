@@ -83,7 +83,9 @@ ticktick auth
 
 ## Claude Cowork Workflow
 
-When running the ticktick CLI inside Claude Code, follow this workflow to pick up and work on tasks:
+When running inside Claude Code in this repository, start by asking the user if they would like to check TickTick for tasks tagged with `claude`. Do not automatically fetch tasks — wait for the user to confirm before proceeding.
+
+Once the user confirms, follow this workflow to pick up and work on tasks:
 
 1. **Fetch open tasks** — Run `ticktick claude-tasks --json` to list all open tasks tagged `claude`. Use the JSON output so you can parse task IDs, project IDs, titles, descriptions, and checklist items programmatically.
 
