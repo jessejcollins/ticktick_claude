@@ -33,7 +33,7 @@ requirements.txt         # Pinned dependency list
 | `ticktick projects` | List all projects with IDs                   |
 | `ticktick tasks`    | List tasks (filters: `--tag`, `--project`, `--all`, `--verbose`, `--json`) |
 | `ticktick claude-tasks` | List open tasks tagged "claude"          |
-| `ticktick append-description <project> <task> <text>` | Append to task description |
+| `ticktick append-description <project> <task> <text>` | Append to task description (routes to `desc` for CHECKLIST tasks, `content` for TEXT tasks) |
 | `ticktick add-checklist <project> <task> <items...>` | Add checklist items |
 | `ticktick complete-task <project> <task>` | Mark task complete |
 
@@ -80,6 +80,7 @@ ticktick auth
 3. **Task enrichment**: `get_all_tasks()` adds `_project_name` to each task dict for display convenience. This is a client-side field, not from the API.
 4. **Completed tasks hidden by default**: `cmd_tasks` and `cmd_claude_tasks` filter out completed tasks (`status != 0`) unless `--all` is passed.
 5. **Checklist item IDs**: Generated as 24-character hex strings via `uuid.uuid4().hex[:24]` to match TickTick's format.
+6. **Description field routing**: TickTick displays different fields in the app depending on task type. CHECKLIST tasks (`kind == "CHECKLIST"`) show the `desc` field; TEXT tasks (`kind == "TEXT"`) show the `content` field. `append_task_content` handles this automatically by checking `task["kind"]`.
 
 ## Claude Cowork Workflow
 
@@ -91,7 +92,7 @@ Once the user confirms, follow this workflow to pick up and work on tasks:
 
 2. **Present tasks to the user** — Display the task list in a readable format and ask the user which task they want to work on. If there is only one task, confirm it with the user before proceeding.
 
-3. **Research the selected task** — Read the task's title, description (`content` field), and any checklist items to understand the requirements. If the task references files, code, or concepts in the current repository, explore the codebase to build context. Ask the user clarifying questions if the task is ambiguous.
+3. **Research the selected task** — Read the task's title, description (`desc` field for CHECKLIST tasks, `content` field for TEXT tasks), and any checklist items to understand the requirements. If the task references files, code, or concepts in the current repository, explore the codebase to build context. Ask the user clarifying questions if the task is ambiguous.
 
 4. **Propose a plan — choose a path** — After researching, present the user with two options:
 

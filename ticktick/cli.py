@@ -152,8 +152,9 @@ def cmd_append_description(args):
     client = _get_client()
     result = client.append_task_content(args.project_id, args.task_id, args.text)
     print(f"Updated task: {result.get('title', args.task_id)}")
-    if result.get("content"):
-        print(f"Description now:\n  {result['content']}")
+    field = "desc" if result.get("kind") == "CHECKLIST" else "content"
+    if result.get(field):
+        print(f"Description now:\n  {result[field]}")
 
 
 def cmd_add_checklist(args):

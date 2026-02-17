@@ -113,10 +113,16 @@ class TickTickClient:
 
     def append_task_content(self, project_id: str, task_id: str,
                             text: str) -> dict:
-        """Append text to a task's content (description) field."""
+        """Append text to the visible description field.
+
+        TickTick displays different fields depending on task type:
+        - CHECKLIST tasks show the 'desc' field
+        - TEXT tasks show the 'content' field
+        """
         task = self.get_task(project_id, task_id)
-        existing = task.get("content") or ""
-        task["content"] = existing + text
+        field = "desc" if task.get("kind") == "CHECKLIST" else "content"
+        existing = task.get(field) or ""
+        task[field] = (existing + "\n\n" + text).lstrip("\n")
         # Send the entire task object to preserve all fields
         return self.update_task(task_id, **task)
 
