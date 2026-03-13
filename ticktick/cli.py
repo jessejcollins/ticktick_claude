@@ -261,8 +261,8 @@ def cmd_add_daily_tasks(args):
     created = []
 
     for hour, minute in times:
-        due_dt = datetime(today.year, today.month, today.day, hour, minute, 0)
-        due_date = due_dt.strftime("%Y-%m-%dT%H:%M:%S+0000")
+        due_dt = datetime(today.year, today.month, today.day, hour, minute, 0).astimezone()
+        due_date = due_dt.strftime("%Y-%m-%dT%H:%M:%S%z")
 
         hour_12 = hour % 12 or 12
         period = "AM" if hour < 12 else "PM"
