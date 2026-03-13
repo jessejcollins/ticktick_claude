@@ -1,10 +1,10 @@
 # CLAUDE.md
 
-Guide for AI assistants working on the ticktick-cli codebase.
+Guide for AI assistants working on the ticktick-claude codebase.
 
 ## Project Overview
 
-**ticktick-cli** is a Python CLI tool for reading and managing TickTick tasks via the [TickTick Open API v1](https://developer.ticktick.com). It includes a "Claude cowork" integration — tasks tagged `claude` in TickTick are surfaced for AI-assisted completion.
+**ticktick-claude** is a Python CLI tool for reading and managing TickTick tasks via the [TickTick Open API v1](https://developer.ticktick.com). It includes a "Claude cowork" integration — tasks tagged `claude` in TickTick are surfaced for AI-assisted completion.
 
 ## Repository Structure
 

@@ -1,4 +1,4 @@
-# ticktick-cli
+# ticktick-claude
 
 Command-line tool for reading and managing TickTick tasks via the [TickTick Open API](https://developer.ticktick.com). Designed for integration with Claude cowork — tag tasks with `claude` in TickTick to surface them for AI-assisted completion.
 
