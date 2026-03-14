@@ -33,7 +33,7 @@ requirements.txt         # Pinned dependency list
 | `ticktick projects` | List all projects with IDs                   |
 | `ticktick tasks`    | List tasks (filters: `--tag`, `--project`, `--all`, `--verbose`, `--json`) |
 | `ticktick claude-tasks` | List open tasks tagged "claude"          |
-| `ticktick create-task <title> --project <name\|id> --tag <tag>` | Create a new task (project and tags optional) |
+| `ticktick create-task <title> --project <name\|id> --tag <tag> ...` | Create a new task (project and tags optional; `--tag` is repeatable) |
 | `ticktick append-description <project> <task> <text> --checklist <items...>` | Append description AND add checklist items atomically (use this instead of separate commands) |
 | `ticktick add-checklist <project> <task> <items...>` | Add checklist items (use `--checklist` flag on `append-description` if also writing a description) |
 | `ticktick add-daily-tasks <title> --project <name\|id> --times <time...>` | Create separate daily repeating tasks at multiple times (e.g. `7am 3pm 11pm`) |
@@ -107,7 +107,7 @@ Once the user confirms, follow this workflow to pick up and work on tasks:
 
    - **If Path A (research)**: Investigate the problem, explore the codebase or external resources, then write a summary of findings back to the task via `ticktick append-description`. Add a checklist of broken-down work items via `ticktick add-checklist`. The task stays open for a future session.
    - **If Path B (complete)**: Carry out the plan. When done, present the results to the user and ask if they are satisfied. If so, run `ticktick complete-task <project_id> <task_id>` to mark the task as done in TickTick.
-   - **If Path C (create tasks)**: Run `ticktick create-task "<title>" --project <name|id> --tag <tag>` for each new task. Optionally update the current task's description or checklist to cross-reference the new tasks by title or ID. The current task stays open unless the user decides it is now fully captured by the new tasks.
+   - **If Path C (create tasks)**: Run `ticktick create-task "<title>" --project <name|id> --tag <tag> [--tag <tag> ...]` for each new task. Optionally update the current task's description or checklist to cross-reference the new tasks by title or ID. The current task stays open unless the user decides it is now fully captured by the new tasks.
 
 ### Example session
 
