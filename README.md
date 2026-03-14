@@ -63,6 +63,7 @@ ticktick tasks --all
 
 # Verbose output (IDs, content, due dates)
 ticktick tasks --verbose
+ticktick claude-tasks --verbose
 
 # JSON output (useful for piping to other tools)
 ticktick tasks --json
@@ -77,14 +78,25 @@ These commands let you modify tasks directly from the CLI — useful as building
 # Append text to a task's description
 ticktick append-description <project-id> <task-id> "Notes from research..."
 
+# Append text AND add checklist items in a single atomic write
+# (avoids stale-read race condition when doing both in the same session)
+ticktick append-description <project-id> <task-id> "Notes..." --checklist "Step 1" "Step 2" "Step 3"
+
 # Add checklist items to a task
 ticktick add-checklist <project-id> <task-id> "Step 1" "Step 2" "Step 3"
+
+# Create separate daily repeating tasks at one or more times of day
+# --project accepts a project name (case-insensitive) or project ID
+ticktick add-daily-tasks "Take medication" --project "Health" --times 7am 3pm 11pm
+ticktick add-daily-tasks "Check metrics" --project <project-id> --times 09:00 17:00
 
 # Mark a task as completed
 ticktick complete-task <project-id> <task-id>
 ```
 
 Use `ticktick tasks --verbose` or `ticktick tasks --json` to find task and project IDs.
+
+> **Note on `append-description --checklist`**: When appending a description and adding checklist items in the same session, always use the `--checklist` flag rather than running `append-description` and `add-checklist` as separate commands. Separate commands trigger a stale-read race condition where the second fetch returns data that doesn't yet reflect the first write, causing the checklist to overwrite the description.
 
 ## Claude Cowork Integration
 
