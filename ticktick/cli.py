@@ -282,6 +282,29 @@ def cmd_add_daily_tasks(args):
     print(f"\nCreated {len(created)} daily task(s) under '{project_name}'.")
 
 
+def cmd_create_task(args):
+    """Create a new task."""
+    client = _get_client()
+
+    project_id = None
+    if args.project:
+        try:
+            project_id = _find_project_id(client, args.project)
+        except RuntimeError as e:
+            print(f"Error: {e}")
+            sys.exit(1)
+
+    task = client.create_task(
+        title=args.title,
+        project_id=project_id,
+        tags=args.tags or None,
+    )
+    print(f"Created task: {task.get('title', args.title)}")
+    print(f"  id: {task.get('id', '?')}")
+    if project_id:
+        print(f"  project: {args.project}")
+
+
 def cmd_complete_task(args):
     """Mark a task as completed."""
     client = _get_client()
@@ -372,6 +395,21 @@ def main():
         help="One or more times, e.g. 7am 3pm 11pm or 07:00 15:00",
     )
 
+    # create-task
+    create_parser = subparsers.add_parser(
+        "create-task",
+        help="Create a new task",
+    )
+    create_parser.add_argument("title", help="Task title")
+    create_parser.add_argument(
+        "--project", "-p",
+        help="Project name or ID",
+    )
+    create_parser.add_argument(
+        "--tag", "-t", dest="tags", action="append", metavar="TAG",
+        help="Add a tag (repeatable, e.g. --tag work --tag claude)",
+    )
+
     # complete-task
     complete_parser = subparsers.add_parser(
         "complete-task",
@@ -394,6 +432,7 @@ def main():
         "append-description": cmd_append_description,
         "add-checklist": cmd_add_checklist,
         "add-daily-tasks": cmd_add_daily_tasks,
+        "create-task": cmd_create_task,
         "complete-task": cmd_complete_task,
     }
     commands[args.command](args)

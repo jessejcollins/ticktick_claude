@@ -75,6 +75,11 @@ ticktick claude-tasks --json
 These commands let you modify tasks directly from the CLI — useful as building blocks for Claude cowork or any automation.
 
 ```bash
+# Create a new task
+ticktick create-task "My new task"
+ticktick create-task "My new task" --project "Work"
+ticktick create-task "My new task" --project <project-id> --tag claude --tag personal
+
 # Append text to a task's description
 ticktick append-description <project-id> <task-id> "Notes from research..."
 
@@ -106,4 +111,4 @@ Tag any task in TickTick with `claude` and it will appear when running:
 ticktick claude-tasks --json
 ```
 
-This JSON output is designed to be consumed by Claude cowork to assist with or complete the tagged tasks. Claude can then use `append-description`, `add-checklist`, and `complete-task` to update tasks as it works on them.
+This JSON output is designed to be consumed by Claude cowork to assist with or complete the tagged tasks. Claude can then use `create-task`, `append-description`, `add-checklist`, and `complete-task` to create, update, and close tasks as it works on them.
