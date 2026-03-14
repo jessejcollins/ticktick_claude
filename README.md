@@ -34,8 +34,11 @@ ticktick auth
 
 This opens your browser to authorize the app. Tokens are saved to `~/.ticktick_token.json`.
 
-- **Claude CLI**: You're done.
-- **Claude Cowork**: Copy `~/.ticktick_token.json` from your home directory (e.g. `C:\Users\<user_name>` on Windows) into the root of this repository. Claude Cowork runs in a VM and will copy this file to the expected location on startup.
+If this command fails, the directory where pip installs scripts may not be in your `PATH`. Run `pip show pip` and look at the `Location` field to find where pip packages are installed, then add the corresponding `Scripts` directory to your `PATH` — or provide the full path to the executable directly (e.g. `C:\Users\Jesse\AppData\Local\Python\pythoncore-3.14-64\Scripts\ticktick.exe auth`).
+
+### 5. Copy TickTick Token (Required for Claude Cowork)
+
+Copy `~/.ticktick_token.json` from your home directory (e.g. `C:\Users\<user_name>` on Windows) into the root of this repository. Claude Cowork runs in a VM and will copy this file to the expected location on startup.
 
 ## Usage
 
