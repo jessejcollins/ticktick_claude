@@ -22,11 +22,25 @@ On first use, run `/mcp` in your Claude Code session. Claude will prompt you to 
 
 ### Claude Cowork
 
-#### 1. Install Node.js
+[https://help.ticktick.com/articles/7438129581631995904#claude-desktop](https://help.ticktick.com/articles/7438129581631995904#claude-desktop)
 
-The MCP connection requires Node.js. Download it from [nodejs.org](https://nodejs.org) if you don't have it.
+**Note:** The steps below are because Claude Desktop doesn't understand the `.mcp.json` file automatically.
 
-_TODO: Add Claude Cowork setup steps._
+#### 1. Go to Connectors in Claude Desktop
+
+Open Claude Desktop and navigate in left panel to `Customize > Connectors`.
+
+#### 2. Add Connector
+
+Click "+" and select "Add custom connector..."
+
+#### 3. Enter MCP Server Details
+
+Enter the MCP server Name "TickTick" and URL [https://mcp.ticktick.com](https://mcp.ticktick.com).
+
+#### 4. Connect to TickTick MCP Server
+
+Click "TickTick" under "Connectors" and then click "Connect" button. Follow the on-screen prompts to complete OAuth sign-in and authorization.
 
 ## Claude Cowork Workflow
 
