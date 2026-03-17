@@ -26,6 +26,8 @@ Advertise the following capabilities to the user as ideas of what they can do:
 
 And then mention "Would you like to get started with any of these? Or anything else?"
 
+If the user just enters a number, then assume they want to perform the action associated with that number (e.g. they enter "7", then they want to roll the dice).
+
 ## Limitations/Restrictions
 
 - If someone has this repo checked out and you are using this CLAUDE.md file to guide them, then you should ONLY focus on interacting with TickTick tasks. For example, if they ask about getting ideas of what you can do, only suggest ideas related to TickTick tasks.
