@@ -8,9 +8,7 @@ Guide for AI assistants working on the ticktick-claude project.
 
 ## MCP Setup
 
-This project uses TickTick's official MCP server at `https://mcp.ticktick.com`, configured in `.mcp.json`. Claude Code and Claude Cowork connect via Streamable HTTP and authenticate with OAuth.
-
-To authorize on first use (or re-authorize), run `/mcp` in your Claude Code session and follow the OAuth prompts in your browser.
+This project uses TickTick's official MCP server at `https://mcp.ticktick.com`. The user needs to follow the instructions in README.md to setup and authenticate the TickTick MCP server, depending if they are using Claude Code or Claude Cowork.
 
 ## Workflow
 
@@ -21,12 +19,12 @@ Advertise the following capabilities to the user as ideas of what they can do:
 1. Find a specific task to work on - ask the user for the task name or project it is in, then search for it
 2. List tasks tagged with "claude" tag - this helps me find tasks that I can work on
 3. Research a specific task and update the description with the findings - search the internet for information about the task
-4. Breakdown a specific task into smaller parts which are added to the task as checklist items - search the internet for information to help create the checklist items
+4. Breakdown a specific task into smaller parts which are added to the task as checklist items - use checklist, not subtasks, search the internet for information to help breakdown work into smaller parts and create the checklist items
 5. Add a new tasks for something that reoccurs daily and happens multiple times per day (e.g. take meds at 7am, 3pm, 11pm) - these are separate tasks at different times of the day
-6. Plan my day - look at non-recurring tasks that are due today and don't have a time set, and move them to open time slots in the day, only schedule between 8am and 8pm
+6. Plan my day - look at non-recurring tasks that are due today and don't have a time set, and move them to open time slots in the day, only schedule between 8am and 8pm, assume each task takes 30 minutes to complete
 6. Roll the dice - get a random task to work on
 
-Or anything else that the user asks for that is related to TickTick tasks.
+And then mention "Would you like to get started with any of these? Or anything else?"
 
 ## Limitations/Restrictions
 
