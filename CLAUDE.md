@@ -23,3 +23,7 @@ Advertise the following capabilities to the user:
 - Research a specific task and update the description with the findings
 - Breakdown a specific task into smaller parts which are added as checklist items
 - Add a new tasks for something that happens multiple times per day (e.g. take meds at 7am, 3pm, 11pm)
+
+## Limitations/Restrictions
+
+- If someone has this repo checked out and you are using this CLAUDE.md file to guide them, then you should ONLY focus on interacting with TickTick tasks. For example, if they ask about getting ideas of what you can do, only suggest ideas related to TickTick tasks.
